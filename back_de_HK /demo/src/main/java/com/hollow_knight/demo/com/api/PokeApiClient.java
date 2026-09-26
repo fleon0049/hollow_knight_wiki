@@ -19,11 +19,21 @@ public class PokeApiClient {
         this.baseUrl = baseUrl;
     }
 
+
+    public List<PokeApiPokemonResponse> getAllPokemons() {
+        String url = baseUrl + "/pokemon";
+        try {
+            PokeApiPokemonListResponse response = restTemplate.getForObject(url, PokeApiPokemonListResponse.class);
+            return response.getResults();
+        } catch (RestClientException ex) {
+            throw new PokeApiException("Error al consultar la PokeAPI para obtener todos los pokemons", ex);
+        }
+    }
     /**
      * Trae un Pokemon de la PokeAPI por nombre (en minuscula, ej "ditto") o por id.
      * Devuelve null si no existe (404).
      */
-    public PokeApiPokemonResponse buscarPokemon(String nombreOId) {
+    public PokeApiPokemonResponse getPokemon(String nombreOId) {
         String url = baseUrl + "/pokemon/" + nombreOId.toLowerCase();
         try {
             return restTemplate.getForObject(url, PokeApiPokemonResponse.class);
