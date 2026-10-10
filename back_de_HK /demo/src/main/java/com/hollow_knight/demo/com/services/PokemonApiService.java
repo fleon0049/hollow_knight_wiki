@@ -1,4 +1,7 @@
-
+import com.hollow_knight.demo.com.client.PokeApiClient;
+import com.hollow_knight.demo.com.model.PokeApiPokemonResponse;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;  
 
 @Service
 public class PokemonApiService {

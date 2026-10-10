@@ -1,15 +1,28 @@
-@Rest Controller
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;  
+
+
+@RestController
 @RequestMapping("/api/pokemon")
 public class PokemonApiController {
-    Private final PokemonService pokemonService;
-    Private final PokemonMapper pokemonMapper;
-    Private final PokemonRepository pokemonRepository;
-    Private final PasswordEncoder passwordEncoder;
-    Private final UserRepository userRepository;
-    Private final authenticationManager authenticationManager;
-    Private final JwtUtil jwtUtil;
+    private final PokemonService pokemonService;
+    private final PokemonMapper pokemonMapper;
+    private final PokemonRepository pokemonRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final UserRepository userRepository;
+    private final AuthenticationManager authenticationManager;
+    private final JwtUtil jwtUtil;
 
-    Public PokemonApiController(PokemonService pokemonService, PokemonMapper pokemonMapper, PokemonRepository pokemonRepository, PasswordEncoder passwordEncoder, UserRepository userRepository, AuthenticationManager authenticationManager, JwtUtil jwtUtil   ) {     
+    public PokemonApiController(PokemonService pokemonService, PokemonMapper pokemonMapper, PokemonRepository pokemonRepository, PasswordEncoder passwordEncoder, UserRepository userRepository, AuthenticationManager authenticationManager, JwtUtil jwtUtil   ) {     
         This.pokemonService = pokemonService;
         This.pokemonMapper = pokemonMapper;
         This.pokemonRepository = pokemonRepository;
@@ -18,8 +31,9 @@ public class PokemonApiController {
         This.authenticationManager = authenticationManager;
         This.jwtUtil = jwtUtil;
     }
+
     @PostMapping("/login")
-    Public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest) {
+    public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest) {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
 
@@ -31,7 +45,7 @@ public class PokemonApiController {
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.toList());
 
-        Return ResponseEntity.ok(new JwtResponse(jwt,
+        return ResponseEntity.ok(new JwtResponse(jwt,
          userDetails.getId(),
          userDetails.getUsername(),
          roles));

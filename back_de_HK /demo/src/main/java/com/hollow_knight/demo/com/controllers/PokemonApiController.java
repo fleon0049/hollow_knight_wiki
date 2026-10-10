@@ -1,3 +1,9 @@
+import java.util.List;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+
+
+
 @RestController("/api")
 public class PokemonApiController {
 
@@ -8,10 +14,12 @@ public class PokemonApiController {
         this.pokemonApiService = pokemonApiService;
     }
 
-    @GetMapping("/pokemons")
-    Public ResponseEntity<List<PokeApiPokemonResponse>> getAllPokemons() {
-        List<PokeApiPokemonResponse> pokemons = pokemonApiService.getAllPokemons();
-        Return ResponseEntity.ok(pokemons);
+    @GetMapping
+    public ResponseEntity<List<PokeApiPokemonResponse>> getAllPokemons() {
+        List<PokeApiPokemonResponse> pokemons =
+                pokemonService.getAllPokemons();
+
+        return ResponseEntity.ok(pokemons);
     }
 
     // @GetMapping("/pokemons/{id}")
