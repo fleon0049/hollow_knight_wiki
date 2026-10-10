@@ -1,0 +1,8 @@
+cat > .dockerignore << 'EOF'
+build/
+.gradle/
+.git/
+.idea/
+*.iml
+.env
+EOF
