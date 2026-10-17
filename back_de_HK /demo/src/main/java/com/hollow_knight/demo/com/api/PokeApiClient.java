@@ -1,6 +1,7 @@
-package com.example.pokemon.client;
+package com.hollow_knight.demo.com.api;
 
-import com.example.pokemon.dto.PokeApiPokemonResponse;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.HttpClientErrorException;
@@ -19,16 +20,16 @@ public class PokeApiClient {
         this.baseUrl = baseUrl;
     }
 
-
     public List<PokeApiPokemonResponse> getAllPokemons() {
         String url = baseUrl + "/pokemon";
         try {
             PokeApiPokemonListResponse response = restTemplate.getForObject(url, PokeApiPokemonListResponse.class);
-            return response.getResults();
+            return response != null ? response.getResults() : List.of();
         } catch (RestClientException ex) {
             throw new PokeApiException("Error al consultar la PokeAPI para obtener todos los pokemons", ex);
         }
     }
+
     /**
      * Trae un Pokemon de la PokeAPI por nombre (en minuscula, ej "ditto") o por id.
      * Devuelve null si no existe (404).
@@ -37,10 +38,9 @@ public class PokeApiClient {
         String url = baseUrl + "/pokemon/" + nombreOId.toLowerCase();
         try {
             return restTemplate.getForObject(url, PokeApiPokemonResponse.class);
-        } catch (HttpClientErrorException.NotFound ex) {
+        } catch (HttpClientErrorException.NotFound ignored) {
             return null;
         } catch (RestClientException ex) {
-            // Timeout, DNS, 5xx, JSON invalido, etc.
             throw new PokeApiException("Error al consultar la PokeAPI para '" + nombreOId + "'", ex);
         }
     }

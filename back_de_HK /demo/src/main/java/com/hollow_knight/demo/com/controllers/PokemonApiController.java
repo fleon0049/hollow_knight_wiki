@@ -1,56 +1,27 @@
+package com.hollow_knight.demo.com.controllers;
+
 import java.util.List;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
+import com.hollow_knight.demo.com.api.PokeApiPokemonResponse;
+import com.hollow_knight.demo.com.services.PokemonApiService;
 
-
-@RestController("/api")
+@RestController
+@RequestMapping("/api")
 public class PokemonApiController {
 
     private final PokemonApiService pokemonApiService;
 
-    @Autowired
     public PokemonApiController(PokemonApiService pokemonApiService) {
         this.pokemonApiService = pokemonApiService;
     }
 
-    @GetMapping
+    @GetMapping("/pokemon")
     public ResponseEntity<List<PokeApiPokemonResponse>> getAllPokemons() {
-        List<PokeApiPokemonResponse> pokemons =
-                pokemonService.getAllPokemons();
-
-        return ResponseEntity.ok(pokemons);
+        return ResponseEntity.ok(pokemonApiService.getAllPokemons());
     }
-
-    // @GetMapping("/pokemons/{id}")
-    // Public ResponseEntity<PokemonDto> getPokemonById(@PathVariable Long id) {
-    //     Pokemon pokemon = pokemonService.getPokemonById(id);
-    //     If (pokemon == null) {
-    //         Return ResponseEntity.notFound().build();
-    //     }
-    //     PokemonDto pokemonDto = pokemonMapper.toDto(pokemon);
-    //     Return ResponseEntity.ok(pokemonDto);
-
-    // }
-
-    // @PostMapping("/pokemons")
-    // Public ResponseEntity<PokemonDto> createPokemon(@RequestBody PokemonDto pokemonDto) {
-    //     Pokemon pokemon = pokemonMapper.toEntity(pokemonDto);
-    //     Pokemon createdPokemon = pokemonService.createPokemon(pokemon);
-    //     PokemonDto createdPokemonDto = pokemonMapper.toDto(createdPokemon);
-    //     Return ResponseEntity.status(HttpStatus.CREATED).body(createdPokemonDto);
-    // }
-
-    // @PutMapping("/pokemons/{id}")
-    // Public ResponseEntity<PokemonDto> updatePokemon(@PathVariable Long id, @RequestBody PokemonDto pokemonDto) {
-    //     Pokemon existingPokemon = pokemonService.getPokemonById(id);
-    //     If (existingPokemon == null) {
-    //         Return ResponseEntity.notFound().build();
-    //     }
-    //     Pokemon updatedPokemon = pokemonMapper.toEntity(pokemonDto);
-    //     updatedPokemon.setId(id);
-    //     Pokemon savedPokemon = pokemonService.updatePokemon(updatedPokemon);
-    //     PokemonDto savedPokemonDto = pokemonMapper.toDto(savedPokemon);
-    //     Return ResponseEntity.ok(savedPokemonDto);
-    // }
 }

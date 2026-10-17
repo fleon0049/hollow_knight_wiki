@@ -1,7 +1,8 @@
-package com.example.pokemon.dto;
+package com.hollow_knight.demo.com.api;
+
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import java.util.List;
 
 /**
  * Mapea la respuesta de GET https://pokeapi.co/api/v2/pokemon/{nombre|id}
