@@ -3,8 +3,7 @@ package com.hollow_knight.demo;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.client.RestTemplate;
 
 @SpringBootApplication
 public class DemoApplication {
@@ -13,18 +12,10 @@ public class DemoApplication {
 		SpringApplication.run(DemoApplication.class, args);
 	}
 
+	/** Cliente HTTP que usa PokeApiClient para comunicarse con PokeAPI. */
 	@Bean
-	public WebMvcConfigurer corsConfigurer() {
-		return new WebMvcConfigurer() {
-			@Override
-			public void addCorsMappings(CorsRegistry registry) {
-				registry.addMapping("/api/**")
-						.allowedOrigins("http://localhost:5173", "http://127.0.0.1:5173")
-						.allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
-						.allowedHeaders("*")
-						.allowCredentials(true);
-			}
-		};
+	public RestTemplate restTemplate() {
+		return new RestTemplate();
 	}
 
 }
