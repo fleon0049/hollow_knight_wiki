@@ -25,29 +25,29 @@ public class PokemonController {
         this.pokemonService = pokemonService;
     }
 
-    @GetMapping("/pokemon")
+    @GetMapping("/my-pokemon")
     public List<Pokemon> getAll() {
         return pokemonService.getAllPokemons();
     }
 
-    @GetMapping("/pokemon/{id}")
+    @GetMapping("/my-pokemon/{id}")
     public ResponseEntity<Pokemon> getById(@PathVariable Long id) {
         return pokemonService.getPokemonById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @PostMapping("/pokemon")
+    @PostMapping("/my-pokemon")
     public Pokemon create(@RequestBody Pokemon pokemon) {
         return pokemonService.createPokemon(pokemon);
     }
 
-    @PutMapping("/pokemon/{id}")
+    @PutMapping("/my-pokemon/{id}")
     public ResponseEntity<Pokemon> update(@PathVariable Long id, @RequestBody Pokemon pokemon) {
         return ResponseEntity.ok(pokemonService.updatePokemon(id, pokemon));
     }
 
-    @DeleteMapping("/pokemon/{id}")
+    @DeleteMapping("/my-pokemon/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         pokemonService.deletePokemon(id);
         return ResponseEntity.noContent().build();
