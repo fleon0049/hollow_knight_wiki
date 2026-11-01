@@ -16,8 +16,11 @@ public class SecurityConfig {
         HttpSecurity http
     ) throws Exception {
 
-    
         http.cors(Customizer.withDefaults());
+        http.csrf(csrf -> csrf.disable());
+        http.authorizeHttpRequests(authorize -> authorize
+                .requestMatchers("/api/**").permitAll()
+                .anyRequest().permitAll());
 
         return http.build();
     }
